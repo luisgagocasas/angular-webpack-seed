@@ -15,3 +15,8 @@ npm install
 ```bash
 gulp serve
 ```
+
+## Build app
+```bash
+gulp build
+```
