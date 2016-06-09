@@ -1,3 +1,9 @@
 module.exports = function ($scope) {
-	console.log($scope);
+	$scope.methods = $scope.methods || {};
+	$scope.models = $scope.models || {};
+
+	// Methods
+
+	// Init
+
 }

@@ -1,10 +1,10 @@
 
 // Import libs
+
 	var libs = require('./app.libs.js');
 
 
 // Setup App
-
 	// App
 	var app = angular.module('app', ['ui.router']);
 
@@ -16,3 +16,8 @@
 
 	// Container
 	app.directive('appContainer', require('./app.directive.js'));
+
+
+// Import Services
+
+	require('./services/index.js')(app);
