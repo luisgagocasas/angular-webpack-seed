@@ -21,3 +21,8 @@
 // Import Services
 
 	require('./services/index.js')(app);
+
+
+// Import Classes
+
+	require('./classes/index.js')(app);
