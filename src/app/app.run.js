@@ -1,5 +1,5 @@
 module.exports = function () {
 
-	console.log('App ready');
-			
+	console.log('App ready!');
+
 }
