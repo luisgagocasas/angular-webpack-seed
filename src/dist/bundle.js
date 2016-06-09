@@ -66,7 +66,7 @@
 
 	// Import Services
 
-		__webpack_require__(9)(app);
+		__webpack_require__(10)(app);
 
 
 /***/ },
@@ -35715,10 +35715,16 @@
 /* 6 */
 /***/ function(module, exports) {
 
-	module.exports = function () {
+	module.exports = function (network) {
 
-		console.log('App ready');
-				
+		// Log network status
+			network.onChange(function (status) {
+				console[status ? 'log' : 'warn']('Network is ', (status ? 'online': 'offline'));
+			})
+
+		// Log app status
+			console.log('App is ready!');
+
 	}
 
 /***/ },
@@ -35728,8 +35734,9 @@
 	module.exports = function () {
 		return {
 			restrict: 'EA',
-			templateUrl: 'app/app.html',
-			controller: __webpack_require__(8)
+			// templateUrl: 'app/app.html',
+			template: __webpack_require__(8),
+			controller: __webpack_require__(9)
 		}
 	}
 
@@ -35737,32 +35744,119 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = function ($scope) {
+	module.exports = ":|";
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = function ($scope, ui) {
 		$scope.methods = $scope.methods || {};
 		$scope.models = $scope.models || {};
 
 		// Methods
 
 		// Init
-
-	}
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function (app) {
-
-		app.factory('ui', __webpack_require__(10));
+			// Register app component
+			ui.registerComponent('app');
 
 	}
 
 /***/ },
 /* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (app) {
+
+		app.factory('network', __webpack_require__(11));
+		app.factory('ui', __webpack_require__(12));
+
+	}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports) {
+
+	module.exports = function ($window) {
+		var network = {};
+
+		// Attributes
+			network._online = true;
+			network._listeners = [];
+
+		// Methods
+			network._startListening = function () {
+				$window.addEventListener('offline', function() {
+					network._online = false;
+					network._listeners.forEach(function (cb) {
+						cb(network._online);
+					});
+				}, false);
+
+				$window.addEventListener('online', function() {
+					network._online = true;
+					network._listeners.forEach(function (cb) {
+						cb(network._online);
+					});
+				}, false);
+			}
+			network.isOnline = function () {
+				return network._online;
+			}
+			network.onChange = function (cb) {
+				network._listeners.push(cb);
+			}
+
+		// Construct
+			network._startListening();
+
+		return network;
+	}
+
+/***/ },
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = function () {
+		var ui = {};
 
+		// Attributes
+			ui._components = {};
+
+		// Methods
+			ui._getComponentMethods = function (componentName) {
+				var methods = {};
+				methods.registerAction = function (actionName, handler) {
+					if (!handler) {
+						console.warn('handler not defined for action "'+actionName+'"');
+						return;
+					}
+					console.log('Action registered "'+actionName+'" inside component "'+componentName+'"');
+					ui._components[componentName]._actions[actionName] = handler;
+				}
+				methods.action = function (actionName, params) {
+					if (!ui._components[componentName]._actions[actionName]) {
+						console.warn('Action "'+actionName+'" not defined in "'+componentName+'" component');
+						return;
+					}
+					ui._components[componentName]._actions[actionName](params);
+				}
+				return methods;
+			}
+			ui.registerComponent = function (componentName) {
+				ui._components[componentName] = {};
+				ui._components[componentName]._actions = {};
+				console.log('Component "'+componentName+'" registered');
+			}
+			ui.component = function (componentName) {
+				if (!ui._components[componentName]) {
+					console.warn('Component "'+componentName+'" not registered..');
+					return;
+				}
+				return ui._getComponentMethods(componentName);
+			}
+
+		return ui;
 	}
 
 /***/ }

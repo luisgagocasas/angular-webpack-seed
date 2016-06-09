@@ -1,7 +1,7 @@
 module.exports = function () {
 	return {
 		restrict: 'EA',
-		templateUrl: 'app/app.html',
+		template: require('./app.html'),
 		controller: require('./app.controller.js')
 	}
 }
