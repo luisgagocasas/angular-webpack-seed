@@ -1,5 +1,11 @@
-module.exports = function () {
+module.exports = function (network) {
 
-	console.log('App ready!');
+	// Log network status
+		network.onChange(function (status) {
+			console[status ? 'log' : 'warn']('Network is ', (status ? 'online': 'offline'));
+		})
+
+	// Log app status
+		console.log('App is ready!');
 
 }
