@@ -1,13 +1,17 @@
 Services
 ========
 
+> After creating a new service add it on the list below and create a new block with its attributes and methods
+
 - ui
 - libs
 - network
 
-## `ui`
+## `libs`
+Exports libs registered on `src/app/app.libs.js`
 
-<!-- #### Attributes -->
+
+## `ui`
 
 #### Methods
 
@@ -22,3 +26,13 @@ Registers an action named `aname` inside the `cname` component.
 
 ##### `ui.component(cname).cction(aname, params)`
 Triggers the action named `aname` of the `cname` component passing `params` to the action handler function.
+
+## `network`
+
+#### Methods
+
+##### `network.isOnline()`
+Returns network status
+
+##### `network.onChange(callback)`
+Registers the `callback` function to listen when network status is changed
