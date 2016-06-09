@@ -5,15 +5,6 @@
 
 // Tasks
 
-	// Install tsd definitions
-	gulp.task('tsd:install', function(module) {
-		if (!module) {
-			shell.exec('node_modules/.bin/tsd install');
-		} else {
-			shell.exec('node_modules/.bin/tsd install '+module+' --save');
-		}
-	});
-
 	// Serve app
 	gulp.task('serve', function () {
 		open('http://localhost:8080/src');
