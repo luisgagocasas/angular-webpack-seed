@@ -23,4 +23,10 @@ gulp serve
 gulp build
 ```
 
-## [Documentation](docs/docs.md)
+## Documentation
+
+#### [Classes](docs/classes.md)
+
+#### [Components](docs/components.md)
+
+#### [Services](docs/services.md)
