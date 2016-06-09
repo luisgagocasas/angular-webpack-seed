@@ -3,13 +3,17 @@ Services
 
 > After creating a new service add it on the list below and create a new block with its attributes and methods
 
-- [ui](#ui)
 - [libs](#libs)
+- [ui](#ui)
 - [network](#network)
 
+---
+
 ## `libs`
+
 Exports libs registered on `src/app/app.libs.js`
 
+---
 
 ## `ui`
 
@@ -26,6 +30,8 @@ Registers an action named `aname` inside the `cname` component.
 
 ##### `ui.component(cname).cction(aname, params)`
 Triggers the action named `aname` of the `cname` component passing `params` to the action handler function.
+
+---
 
 ## `network`
 
