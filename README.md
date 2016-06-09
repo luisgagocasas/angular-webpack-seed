@@ -5,18 +5,22 @@ Angular Webpack Seed
 - npm
 - gulp
 
-## Installation
+## Getting started
+
+#### Installation
 ```bash
 # npm dependencies
 npm install
 ```
 
-## Serve app
+#### Serve app
 ```bash
 gulp serve
 ```
 
-## Build app
+#### Build app
 ```bash
 gulp build
 ```
+
+## [Documentation](docs/docs.md)
