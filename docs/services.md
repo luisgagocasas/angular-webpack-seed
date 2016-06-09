@@ -3,9 +3,9 @@ Services
 
 > After creating a new service add it on the list below and create a new block with its attributes and methods
 
-- ui
-- libs
-- network
+- [ui](#ui)
+- [libs](#libs)
+- [network](#network)
 
 ## `libs`
 Exports libs registered on `src/app/app.libs.js`
