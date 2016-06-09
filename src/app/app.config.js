@@ -8,4 +8,4 @@ module.exports = function ($stateProvider, $urlRouterProvider, $compileProvider)
 				template: ':D'
 			})
 			
-	}
+}
