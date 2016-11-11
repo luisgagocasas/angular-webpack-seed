@@ -6,10 +6,12 @@
 // Tasks
 
 	// Serve app
-	gulp.task('serve', function () {
-		open('http://localhost:8080/src');
-		shell.exec('node_modules/.bin/webpack-dev-server --progress --colors --watch --inline --open');
-	});
+	gulp.task('serve', function (show) {
+    if (show) {
+      open('http://localhost:8080');
+    }
+    shell.exec('node_modules/.bin/webpack --watch');
+  });
 
 	// Build app
 	gulp.task('build', function () {
