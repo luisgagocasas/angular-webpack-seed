@@ -16,7 +16,9 @@
 
 	// Container
 	app.directive('appContainer', require('./app.directive.js'));
-
+	
+//components
+	require('./components/index.js')(app);
 
 // Import Services
 
