@@ -36485,13 +36485,16 @@
 	module.exports = function ($stateProvider, $urlRouterProvider, $compileProvider) {
 
 		// Router
-			$urlRouterProvider.otherwise('/');
-			$stateProvider
-				.state('home', {
-					url: '/',
-					template: ':D'
-				})
-				
+		$urlRouterProvider.otherwise('/');
+		$stateProvider
+			.state('home', {
+				url: '/',
+				template: ':D'
+			})
+			.state('saludar', {
+				url: '/saludar',
+				template: '<div saludar></div>'
+			})
 	}
 
 /***/ },
@@ -36526,7 +36529,7 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = "holas";
+	module.exports = "<div ui-view></div>";
 
 /***/ },
 /* 9 */
@@ -36539,8 +36542,8 @@
 		// Methods
 
 		// Init
-			// Register app component
-			ui.registerComponent('app');
+		// Register app component
+		ui.registerComponent('app');
 
 	}
 

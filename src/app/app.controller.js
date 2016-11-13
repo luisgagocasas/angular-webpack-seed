@@ -5,7 +5,7 @@ module.exports = function ($scope, ui) {
 	// Methods
 
 	// Init
-		// Register app component
-		ui.registerComponent('app');
+	// Register app component
+	ui.registerComponent('app');
 
 }
