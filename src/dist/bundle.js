@@ -64,11 +64,11 @@
 		__webpack_require__(12)(app);
 
 	// Import Services
-		__webpack_require__(20)(app);
+		__webpack_require__(30)(app);
 
 
 	// Import Classes
-		__webpack_require__(24)(app);
+		__webpack_require__(34)(app);
 
 /***/ },
 /* 1 */
@@ -36490,11 +36490,18 @@
 				url: '/saludar',
 				template: '<div saludar></div>'
 			})
-			.state('otherwise', {
-				abstract: true,
-				//url: '*path',
-				template: '404'
+			.state('persona', {
+				url: '/persona',
+				template: '<div persona></div>'
 			})
+				.state('persona.personaMasculino', {
+					url: '/masculino',
+					template: '<div persona-masculino></div>'
+				})
+				.state('persona.personaFemenino', {
+					url: '/femenino',
+					template: '<div persona-femenino></div>'
+				})
 	}
 
 /***/ },
@@ -36820,15 +36827,27 @@
 	// Imports
 		//Controllers
 		var saludarController = __webpack_require__(13);
+		var personaController = __webpack_require__(14);
+		var personaMasculinoController = __webpack_require__(15);
+		var personaFemeninoController = __webpack_require__(35);
 		//Directives
-		var saludarDirective = __webpack_require__(25);
+		var saludarDirective = __webpack_require__(16);
+		var personaDirective = __webpack_require__(22);
+		var personaMasculinoDirective = __webpack_require__(26);
+		var personaFemeninoDirective = __webpack_require__(36);
 
 	// Setup
 		module.exports = function (app) {
 			// Controllers
 			app.controller('saludar', saludarController);
+			app.controller('persona', personaController);
+			app.controller('personaMasculino', personaMasculinoController);
+			app.controller('personaFemenino', personaFemeninoController);
 			// Directives
 			app.directive('saludar', saludarDirective);
+			app.directive('persona', personaDirective);
+			app.directive('personaMasculino', personaMasculinoDirective);
+			app.directive('personaFemenino', personaFemeninoDirective);
 		}
 
 /***/ },
@@ -36842,8 +36861,45 @@
 	module.exports = saludarController;
 
 /***/ },
-/* 14 */,
+/* 14 */
+/***/ function(module, exports) {
+
+	function personaController() {
+	  console.log("ready persona");
+	}
+
+	module.exports = personaController;
+
+/***/ },
 /* 15 */
+/***/ function(module, exports) {
+
+	function personaMasculinoController() {
+	  console.log("persona masculino");
+	}
+
+	module.exports = personaMasculinoController;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	// Imports
+	    var template = __webpack_require__(17);
+	    var style = __webpack_require__(18);
+	// Exports
+	    function directive() {
+	        return {
+	            controller: 'saludar as component',
+	            restrict: 'EA',
+	            template: template
+	        };
+	    }
+	    module.exports = directive;
+
+/***/ },
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var jade = __webpack_require__(9);
@@ -36857,16 +36913,16 @@
 	}
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(17);
+	var content = __webpack_require__(19);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(19)(content, {});
+	var update = __webpack_require__(21)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -36883,10 +36939,10 @@
 	}
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(18)();
+	exports = module.exports = __webpack_require__(20)();
 	// imports
 
 
@@ -36897,7 +36953,7 @@
 
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports) {
 
 	/*
@@ -36953,7 +37009,7 @@
 
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -37205,19 +37261,163 @@
 
 
 /***/ },
-/* 20 */
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	// Imports
+	    var template = __webpack_require__(23);
+	    var style = __webpack_require__(24);
+	// Exports
+	    function directive() {
+	        return {
+	            controller: 'persona as component',
+	            restrict: 'EA',
+	            template: template
+	        };
+	    }
+	    module.exports = directive;
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var jade = __webpack_require__(9);
+
+	module.exports = function template(locals) {
+	var buf = [];
+	var jade_mixins = {};
+	var jade_interp;
+
+	buf.push("<ui-view></ui-view>");;return buf.join("");
+	}
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(25);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(21)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(20)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".persona {\n  color: #f00;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	// Imports
+	    var template = __webpack_require__(27);
+	    var style = __webpack_require__(28);
+	// Exports
+	    function directive() {
+	        return {
+	            controller: 'personaMasculino as component',
+	            restrict: 'EA',
+	            template: template
+	        };
+	    }
+	    module.exports = directive;
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var jade = __webpack_require__(9);
+
+	module.exports = function template(locals) {
+	var buf = [];
+	var jade_mixins = {};
+	var jade_interp;
+
+	buf.push("<div class=\"persona\">Persona Masculino</div>");;return buf.join("");
+	}
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(29);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(21)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(20)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".persona {\n  color: #008000;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function (app) {
 
-		app.factory('libs', __webpack_require__(21));
-		app.factory('network', __webpack_require__(22));
-		app.factory('ui', __webpack_require__(23));
+		app.factory('libs', __webpack_require__(31));
+		app.factory('network', __webpack_require__(32));
+		app.factory('ui', __webpack_require__(33));
 
 	}
 
 /***/ },
-/* 21 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function () {
@@ -37225,7 +37425,7 @@
 	}
 
 /***/ },
-/* 22 */
+/* 32 */
 /***/ function(module, exports) {
 
 	module.exports = function ($window) {
@@ -37265,7 +37465,7 @@
 	}
 
 /***/ },
-/* 23 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports = function () {
@@ -37311,7 +37511,7 @@
 	}
 
 /***/ },
-/* 24 */
+/* 34 */
 /***/ function(module, exports) {
 
 	module.exports = function (app) {
@@ -37321,22 +37521,86 @@
 	}
 
 /***/ },
-/* 25 */
+/* 35 */
+/***/ function(module, exports) {
+
+	function personaFemeninoController() {
+	  console.log("persona femenino");
+	}
+
+	module.exports = personaFemeninoController;
+
+/***/ },
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	// Imports
-	    var template = __webpack_require__(15);
-	    var style = __webpack_require__(16);
+	    var template = __webpack_require__(37);
+	    var style = __webpack_require__(38);
 	// Exports
 	    function directive() {
 	        return {
-	            controller: 'saludar as component',
+	            controller: 'personaFemenino as component',
 	            restrict: 'EA',
 	            template: template
 	        };
 	    }
 	    module.exports = directive;
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var jade = __webpack_require__(9);
+
+	module.exports = function template(locals) {
+	var buf = [];
+	var jade_mixins = {};
+	var jade_interp;
+
+	buf.push("<div class=\"persona\">Persona Femenino</div>");;return buf.join("");
+	}
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(39);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(21)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(20)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".persona {\n  color: #008000;\n}\n", ""]);
+
+	// exports
+
 
 /***/ }
 /******/ ]);

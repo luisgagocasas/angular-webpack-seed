@@ -10,9 +10,16 @@ module.exports = function ($stateProvider, $urlRouterProvider, $compileProvider)
 			url: '/saludar',
 			template: '<div saludar></div>'
 		})
-		.state('otherwise', {
-			abstract: true,
-			//url: '*path',
-			template: '404'
+		.state('persona', {
+			url: '/persona',
+			template: '<div persona></div>'
 		})
+			.state('persona.personaMasculino', {
+				url: '/masculino',
+				template: '<div persona-masculino></div>'
+			})
+			.state('persona.personaFemenino', {
+				url: '/femenino',
+				template: '<div persona-femenino></div>'
+			})
 }
