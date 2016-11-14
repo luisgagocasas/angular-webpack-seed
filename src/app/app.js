@@ -1,8 +1,5 @@
-
 // Import libs
-
 	var libs = require('./app.libs.js');
-
 
 // Setup App
 	// App
@@ -21,10 +18,8 @@
 	require('./components/index.js')(app);
 
 // Import Services
-
 	require('./services/index.js')(app);
 
 
 // Import Classes
-
 	require('./classes/index.js')(app);

@@ -44,11 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	
 	// Import libs
-
 		var libs = __webpack_require__(1);
-
 
 	// Setup App
 		// App
@@ -67,14 +64,11 @@
 		__webpack_require__(10)(app);
 
 	// Import Services
-
 		__webpack_require__(18)(app);
 
 
 	// Import Classes
-
 		__webpack_require__(22)(app);
-
 
 /***/ },
 /* 1 */
@@ -36485,17 +36479,21 @@
 /***/ function(module, exports) {
 
 	module.exports = function ($stateProvider, $urlRouterProvider, $compileProvider) {
-
 		// Router
 		$urlRouterProvider.otherwise('/');
 		$stateProvider
 			.state('home', {
 				url: '/',
-				template: ':D'
+				template: 'Inicio'
 			})
 			.state('saludar', {
 				url: '/saludar',
 				template: '<div saludar></div>'
+			})
+			.state('otherwise', {
+				abstract: true,
+				//url: '*path',
+				template: '404'
 			})
 	}
 
