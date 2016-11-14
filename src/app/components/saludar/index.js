@@ -10,4 +10,4 @@
             template: template
         };
     }
-    exports.directive = directive;
+    module.exports = directive;

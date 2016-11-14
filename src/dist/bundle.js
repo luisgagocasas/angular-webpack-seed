@@ -64,16 +64,16 @@
 		app.directive('appContainer', __webpack_require__(7));
 		
 	//components
-		__webpack_require__(15)(app);
+		__webpack_require__(10)(app);
 
 	// Import Services
 
-		__webpack_require__(10)(app);
+		__webpack_require__(18)(app);
 
 
 	// Import Classes
 
-		__webpack_require__(14)(app);
+		__webpack_require__(22)(app);
 
 
 /***/ },
@@ -36553,127 +36553,11 @@
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function (app) {
-
-		app.factory('libs', __webpack_require__(11));
-		app.factory('network', __webpack_require__(12));
-		app.factory('ui', __webpack_require__(13));
-
-	}
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function () {
-		return __webpack_require__(1);
-	}
-
-/***/ },
-/* 12 */
-/***/ function(module, exports) {
-
-	module.exports = function ($window) {
-		var network = {};
-
-		// Attributes
-			network._online = true;
-			network._listeners = [];
-
-		// Methods
-			network._startListening = function () {
-				$window.addEventListener('offline', function() {
-					network._online = false;
-					network._listeners.forEach(function (cb) {
-						cb(network._online);
-					});
-				}, false);
-
-				$window.addEventListener('online', function() {
-					network._online = true;
-					network._listeners.forEach(function (cb) {
-						cb(network._online);
-					});
-				}, false);
-			}
-			network.isOnline = function () {
-				return network._online;
-			}
-			network.onChange = function (cb) {
-				network._listeners.push(cb);
-			}
-
-		// Construct
-			network._startListening();
-
-		return network;
-	}
-
-/***/ },
-/* 13 */
-/***/ function(module, exports) {
-
-	module.exports = function () {
-		var ui = {};
-
-		// Attributes
-			ui._components = {};
-
-		// Methods
-			ui._getComponentMethods = function (componentName) {
-				var methods = {};
-				methods.registerAction = function (actionName, handler) {
-					if (!handler) {
-						console.warn('handler not defined for action "'+actionName+'"');
-						return;
-					}
-					console.log('Action registered "'+actionName+'" inside component "'+componentName+'"');
-					ui._components[componentName]._actions[actionName] = handler;
-				}
-				methods.action = function (actionName, params) {
-					if (!ui._components[componentName]._actions[actionName]) {
-						console.warn('Action "'+actionName+'" not defined in "'+componentName+'" component');
-						return;
-					}
-					ui._components[componentName]._actions[actionName](params);
-				}
-				return methods;
-			}
-			ui.registerComponent = function (componentName) {
-				ui._components[componentName] = {};
-				ui._components[componentName]._actions = {};
-				console.log('Component "'+componentName+'" registered');
-			}
-			ui.component = function (componentName) {
-				if (!ui._components[componentName]) {
-					console.warn('Component "'+componentName+'" not registered..');
-					return;
-				}
-				return ui._getComponentMethods(componentName);
-			}
-
-		return ui;
-	}
-
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	module.exports = function (app) {
-
-		// app.factory('myclass', require('./myclass.factory.js'));
-		
-	}
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
 	// Imports
 		//Controllers
-		var saludarController = __webpack_require__(16);
+		var saludarController = __webpack_require__(11);
 		//Directives
-		var saludarDirective = __webpack_require__(17);
+		var saludarDirective = __webpack_require__(12);
 
 	// Setup
 		module.exports = function (app) {
@@ -36684,23 +36568,23 @@
 		}
 
 /***/ },
-/* 16 */
+/* 11 */
 /***/ function(module, exports) {
 
 	function saludarController() {
 	  console.log("ready");
 	}
 
-	exports.ComponentController = saludarController;
+	module.exports = saludarController;
 
 /***/ },
-/* 17 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	// Imports
-	    var template = __webpack_require__(18);
-	    var style = __webpack_require__(19);
+	    var template = __webpack_require__(13);
+	    var style = __webpack_require__(14);
 	// Exports
 	    function directive() {
 	        return {
@@ -36709,25 +36593,25 @@
 	            template: template
 	        };
 	    }
-	    exports.directive = directive;
+	    module.exports = directive;
 
 /***/ },
-/* 18 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"saludo\">\n    Saludos amigo\n</div>";
 
 /***/ },
-/* 19 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(20);
+	var content = __webpack_require__(15);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(22)(content, {});
+	var update = __webpack_require__(17)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -36744,10 +36628,10 @@
 	}
 
 /***/ },
-/* 20 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(21)();
+	exports = module.exports = __webpack_require__(16)();
 	// imports
 
 
@@ -36758,7 +36642,7 @@
 
 
 /***/ },
-/* 21 */
+/* 16 */
 /***/ function(module, exports) {
 
 	/*
@@ -36814,7 +36698,7 @@
 
 
 /***/ },
-/* 22 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -37064,6 +36948,122 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (app) {
+
+		app.factory('libs', __webpack_require__(19));
+		app.factory('network', __webpack_require__(20));
+		app.factory('ui', __webpack_require__(21));
+
+	}
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function () {
+		return __webpack_require__(1);
+	}
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	module.exports = function ($window) {
+		var network = {};
+
+		// Attributes
+			network._online = true;
+			network._listeners = [];
+
+		// Methods
+			network._startListening = function () {
+				$window.addEventListener('offline', function() {
+					network._online = false;
+					network._listeners.forEach(function (cb) {
+						cb(network._online);
+					});
+				}, false);
+
+				$window.addEventListener('online', function() {
+					network._online = true;
+					network._listeners.forEach(function (cb) {
+						cb(network._online);
+					});
+				}, false);
+			}
+			network.isOnline = function () {
+				return network._online;
+			}
+			network.onChange = function (cb) {
+				network._listeners.push(cb);
+			}
+
+		// Construct
+			network._startListening();
+
+		return network;
+	}
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports = function () {
+		var ui = {};
+
+		// Attributes
+			ui._components = {};
+
+		// Methods
+			ui._getComponentMethods = function (componentName) {
+				var methods = {};
+				methods.registerAction = function (actionName, handler) {
+					if (!handler) {
+						console.warn('handler not defined for action "'+actionName+'"');
+						return;
+					}
+					console.log('Action registered "'+actionName+'" inside component "'+componentName+'"');
+					ui._components[componentName]._actions[actionName] = handler;
+				}
+				methods.action = function (actionName, params) {
+					if (!ui._components[componentName]._actions[actionName]) {
+						console.warn('Action "'+actionName+'" not defined in "'+componentName+'" component');
+						return;
+					}
+					ui._components[componentName]._actions[actionName](params);
+				}
+				return methods;
+			}
+			ui.registerComponent = function (componentName) {
+				ui._components[componentName] = {};
+				ui._components[componentName]._actions = {};
+				console.log('Component "'+componentName+'" registered');
+			}
+			ui.component = function (componentName) {
+				if (!ui._components[componentName]) {
+					console.warn('Component "'+componentName+'" not registered..');
+					return;
+				}
+				return ui._getComponentMethods(componentName);
+			}
+
+		return ui;
+	}
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	module.exports = function (app) {
+
+		// app.factory('myclass', require('./myclass.factory.js'));
+		
+	}
 
 /***/ }
 /******/ ]);
