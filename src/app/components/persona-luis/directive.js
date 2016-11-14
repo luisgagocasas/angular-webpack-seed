@@ -5,7 +5,7 @@
 // Exports
     function directive() {
         return {
-            controller: 'personaFemenino as component',
+            controller: 'personaLuis as component',
             restrict: 'EA',
             template: template
         };

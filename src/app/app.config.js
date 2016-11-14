@@ -14,12 +14,12 @@ module.exports = function ($stateProvider, $urlRouterProvider, $compileProvider)
 			url: '/persona',
 			template: '<div persona></div>'
 		})
-			.state('persona.personaMasculino', {
-				url: '/masculino',
-				template: '<div persona-masculino></div>'
+			.state('persona.personaMiguel', {
+				url: '/miguel',
+				template: '<div persona-miguel></div>'
 			})
-			.state('persona.personaFemenino', {
-				url: '/femenino',
-				template: '<div persona-femenino></div>'
+			.state('persona.personaLuis', {
+				url: '/luis',
+				template: '<div persona-luis></div>'
 			})
 }
