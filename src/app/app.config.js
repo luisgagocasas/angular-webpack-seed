@@ -4,7 +4,7 @@ module.exports = function ($stateProvider, $urlRouterProvider, $compileProvider)
 	$stateProvider
 		.state('home', {
 			url: '/',
-			template: 'Inicio'
+			template: '<div home></div>'
 		})
 		.state('saludar', {
 			url: '/saludar',

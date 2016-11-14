@@ -64,11 +64,11 @@
 		__webpack_require__(12)(app);
 
 	// Import Services
-		__webpack_require__(30)(app);
+		__webpack_require__(13)(app);
 
 
 	// Import Classes
-		__webpack_require__(34)(app);
+		__webpack_require__(17)(app);
 
 /***/ },
 /* 1 */
@@ -36484,7 +36484,7 @@
 		$stateProvider
 			.state('home', {
 				url: '/',
-				template: 'Inicio'
+				template: '<div home></div>'
 			})
 			.state('saludar', {
 				url: '/saludar',
@@ -36517,7 +36517,6 @@
 
 		// Log app status
 			console.log('App is ready!');
-
 	}
 
 /***/ },
@@ -36826,24 +36825,31 @@
 
 	// Imports
 		//Controllers
-		var saludarController = __webpack_require__(13);
-		var personaController = __webpack_require__(14);
-		var personaMiguelController = __webpack_require__(40);
-		var personaLuisController = __webpack_require__(41);
+		var homeController = __webpack_require__(41);
+		var saludarController = __webpack_require__(19);
+		var personaController = __webpack_require__(20);
+		var personaMiguelController = __webpack_require__(21);
+		var personaLuisController = __webpack_require__(22);
 		//Directives
-		var saludarDirective = __webpack_require__(16);
-		var personaDirective = __webpack_require__(22);
-		var personaMiguelDirective = __webpack_require__(42);
-		var personaLuisDirective = __webpack_require__(46);
+		var homeDirective = __webpack_require__(42);
+		var saludarDirective = __webpack_require__(23);
+		var personaDirective = __webpack_require__(29);
+		var personaMiguelDirective = __webpack_require__(33);
+		var personaLuisDirective = __webpack_require__(37);
 
 	// Setup
 		module.exports = function (app) {
 			// Controllers
+			app.controller('MainCtrl', function ($scope, Page) {
+				$scope.Page = Page;
+			});
+			app.controller('home', homeController);
 			app.controller('saludar', saludarController);
 			app.controller('persona', personaController);
 			app.controller('personaMiguel', personaMiguelController);
 			app.controller('personaLuis', personaLuisController);
 			// Directives
+			app.directive('home', homeDirective);
 			app.directive('saludar', saludarDirective);
 			app.directive('persona', personaDirective);
 			app.directive('personaMiguel', personaMiguelDirective);
@@ -36852,33 +36858,186 @@
 
 /***/ },
 /* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (app) {
+
+		app.factory('libs', __webpack_require__(14));
+		app.factory('network', __webpack_require__(15));
+		app.factory('ui', __webpack_require__(16));
+
+	}
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function () {
+		return __webpack_require__(1);
+	}
+
+/***/ },
+/* 15 */
 /***/ function(module, exports) {
 
-	function saludarController() {
-	  console.log("ready");
+	module.exports = function ($window) {
+		var network = {};
+
+		// Attributes
+			network._online = true;
+			network._listeners = [];
+
+		// Methods
+			network._startListening = function () {
+				$window.addEventListener('offline', function() {
+					network._online = false;
+					network._listeners.forEach(function (cb) {
+						cb(network._online);
+					});
+				}, false);
+
+				$window.addEventListener('online', function() {
+					network._online = true;
+					network._listeners.forEach(function (cb) {
+						cb(network._online);
+					});
+				}, false);
+			}
+			network.isOnline = function () {
+				return network._online;
+			}
+			network.onChange = function (cb) {
+				network._listeners.push(cb);
+			}
+
+		// Construct
+			network._startListening();
+
+		return network;
+	}
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports = function () {
+		var ui = {};
+
+		// Attributes
+			ui._components = {};
+
+		// Methods
+			ui._getComponentMethods = function (componentName) {
+				var methods = {};
+				methods.registerAction = function (actionName, handler) {
+					if (!handler) {
+						console.warn('handler not defined for action "'+actionName+'"');
+						return;
+					}
+					console.log('Action registered "'+actionName+'" inside component "'+componentName+'"');
+					ui._components[componentName]._actions[actionName] = handler;
+				}
+				methods.action = function (actionName, params) {
+					if (!ui._components[componentName]._actions[actionName]) {
+						console.warn('Action "'+actionName+'" not defined in "'+componentName+'" component');
+						return;
+					}
+					ui._components[componentName]._actions[actionName](params);
+				}
+				return methods;
+			}
+			ui.registerComponent = function (componentName) {
+				ui._components[componentName] = {};
+				ui._components[componentName]._actions = {};
+				console.log('Component "'+componentName+'" registered');
+			}
+			ui.component = function (componentName) {
+				if (!ui._components[componentName]) {
+					console.warn('Component "'+componentName+'" not registered..');
+					return;
+				}
+				return ui._getComponentMethods(componentName);
+			}
+
+		return ui;
+	}
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function (app) {
+
+		app.factory('Page', __webpack_require__(18));
+		
+	}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports) {
+
+	function titlePage(){
+	    var title = 'default';
+	    return {
+	        title: function() { return title; },
+	        setTitle: function(newTitle) { title = newTitle; }
+	    };
+	};
+
+	module.exports = titlePage;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	function saludarController($scope, Page) {
+	    Page.setTitle('Saludar');
+	    console.log("Saludar");
 	}
 
 	module.exports = saludarController;
 
 /***/ },
-/* 14 */
+/* 20 */
 /***/ function(module, exports) {
 
-	function personaController() {
-	  console.log("ready persona");
+	function personaController($scope, Page) {
+	    Page.setTitle('Persona');
+	    console.log("ready persona");
 	}
 
 	module.exports = personaController;
 
 /***/ },
-/* 15 */,
-/* 16 */
+/* 21 */
+/***/ function(module, exports) {
+
+	function personaMiguelController($scope, Page) {
+	    Page.setTitle('Miguel');
+	    console.log("Miguel");
+	}
+
+	module.exports = personaMiguelController;
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	function personaLuisController($scope, Page) {
+	    Page.setTitle('Luis');
+	    console.log("Luis");
+	}
+
+	module.exports = personaLuisController;
+
+/***/ },
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	// Imports
-	    var template = __webpack_require__(17);
-	    var style = __webpack_require__(18);
+	    var template = __webpack_require__(24);
+	    var style = __webpack_require__(25);
 	// Exports
 	    function directive() {
 	        return {
@@ -36890,7 +37049,7 @@
 	    module.exports = directive;
 
 /***/ },
-/* 17 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var jade = __webpack_require__(9);
@@ -36900,20 +37059,20 @@
 	var jade_mixins = {};
 	var jade_interp;
 
-	buf.push("<div class=\"saludo\">Hola :)</div>");;return buf.join("");
+	buf.push("<div class=\"saludo\">Hola :) {{ Page.title() }}</div>");;return buf.join("");
 	}
 
 /***/ },
-/* 18 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(19);
+	var content = __webpack_require__(26);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(21)(content, {});
+	var update = __webpack_require__(28)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -36930,10 +37089,10 @@
 	}
 
 /***/ },
-/* 19 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(20)();
+	exports = module.exports = __webpack_require__(27)();
 	// imports
 
 
@@ -36944,7 +37103,7 @@
 
 
 /***/ },
-/* 20 */
+/* 27 */
 /***/ function(module, exports) {
 
 	/*
@@ -37000,7 +37159,7 @@
 
 
 /***/ },
-/* 21 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -37252,13 +37411,13 @@
 
 
 /***/ },
-/* 22 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	// Imports
-	    var template = __webpack_require__(23);
-	    var style = __webpack_require__(24);
+	    var template = __webpack_require__(30);
+	    var style = __webpack_require__(31);
 	// Exports
 	    function directive() {
 	        return {
@@ -37270,7 +37429,7 @@
 	    module.exports = directive;
 
 /***/ },
-/* 23 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var jade = __webpack_require__(9);
@@ -37284,16 +37443,16 @@
 	}
 
 /***/ },
-/* 24 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(25);
+	var content = __webpack_require__(32);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(21)(content, {});
+	var update = __webpack_require__(28)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -37310,10 +37469,10 @@
 	}
 
 /***/ },
-/* 25 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(20)();
+	exports = module.exports = __webpack_require__(27)();
 	// imports
 
 
@@ -37324,149 +37483,159 @@
 
 
 /***/ },
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function (app) {
-
-		app.factory('libs', __webpack_require__(31));
-		app.factory('network', __webpack_require__(32));
-		app.factory('ui', __webpack_require__(33));
-
-	}
-
-/***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function () {
-		return __webpack_require__(1);
-	}
-
-/***/ },
-/* 32 */
-/***/ function(module, exports) {
-
-	module.exports = function ($window) {
-		var network = {};
-
-		// Attributes
-			network._online = true;
-			network._listeners = [];
-
-		// Methods
-			network._startListening = function () {
-				$window.addEventListener('offline', function() {
-					network._online = false;
-					network._listeners.forEach(function (cb) {
-						cb(network._online);
-					});
-				}, false);
-
-				$window.addEventListener('online', function() {
-					network._online = true;
-					network._listeners.forEach(function (cb) {
-						cb(network._online);
-					});
-				}, false);
-			}
-			network.isOnline = function () {
-				return network._online;
-			}
-			network.onChange = function (cb) {
-				network._listeners.push(cb);
-			}
-
-		// Construct
-			network._startListening();
-
-		return network;
-	}
-
-/***/ },
 /* 33 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function () {
-		var ui = {};
-
-		// Attributes
-			ui._components = {};
-
-		// Methods
-			ui._getComponentMethods = function (componentName) {
-				var methods = {};
-				methods.registerAction = function (actionName, handler) {
-					if (!handler) {
-						console.warn('handler not defined for action "'+actionName+'"');
-						return;
-					}
-					console.log('Action registered "'+actionName+'" inside component "'+componentName+'"');
-					ui._components[componentName]._actions[actionName] = handler;
-				}
-				methods.action = function (actionName, params) {
-					if (!ui._components[componentName]._actions[actionName]) {
-						console.warn('Action "'+actionName+'" not defined in "'+componentName+'" component');
-						return;
-					}
-					ui._components[componentName]._actions[actionName](params);
-				}
-				return methods;
-			}
-			ui.registerComponent = function (componentName) {
-				ui._components[componentName] = {};
-				ui._components[componentName]._actions = {};
-				console.log('Component "'+componentName+'" registered');
-			}
-			ui.component = function (componentName) {
-				if (!ui._components[componentName]) {
-					console.warn('Component "'+componentName+'" not registered..');
-					return;
-				}
-				return ui._getComponentMethods(componentName);
-			}
-
-		return ui;
-	}
+	"use strict";
+	// Imports
+	    var template = __webpack_require__(34);
+	    var style = __webpack_require__(35);
+	// Exports
+	    function directive() {
+	        return {
+	            controller: 'personaMiguel as component',
+	            restrict: 'EA',
+	            template: template
+	        };
+	    }
+	    module.exports = directive;
 
 /***/ },
 /* 34 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function (app) {
+	var jade = __webpack_require__(9);
 
-		// app.factory('myclass', require('./myclass.factory.js'));
-		
+	module.exports = function template(locals) {
+	var buf = [];
+	var jade_mixins = {};
+	var jade_interp;
+
+	buf.push("<div class=\"persona\">Miguel</div>");;return buf.join("");
 	}
 
 /***/ },
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */
-/***/ function(module, exports) {
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
 
-	function personaMiguelController() {
-	  console.log("Miguel");
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(36);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(28)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
 	}
 
-	module.exports = personaMiguelController;
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(27)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".persona {\n  color: #008000;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	// Imports
+	    var template = __webpack_require__(38);
+	    var style = __webpack_require__(39);
+	// Exports
+	    function directive() {
+	        return {
+	            controller: 'personaLuis as component',
+	            restrict: 'EA',
+	            template: template
+	        };
+	    }
+	    module.exports = directive;
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var jade = __webpack_require__(9);
+
+	module.exports = function template(locals) {
+	var buf = [];
+	var jade_mixins = {};
+	var jade_interp;
+
+	buf.push("<div class=\"persona\">Luis</div>");;return buf.join("");
+	}
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(40);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(28)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl", function() {
+				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(27)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".persona {\n  color: #008000;\n}\n", ""]);
+
+	// exports
+
 
 /***/ },
 /* 41 */
 /***/ function(module, exports) {
 
-	function personaLuisController() {
-	  console.log("Luis");
+	function homeController($scope, Page) {
+	    Page.setTitle('Inicio');
+	    console.log("Inicio");
 	}
 
-	module.exports = personaLuisController;
+	module.exports = homeController;
 
 /***/ },
 /* 42 */
@@ -37479,7 +37648,7 @@
 	// Exports
 	    function directive() {
 	        return {
-	            controller: 'personaMiguel as component',
+	            controller: 'home as component',
 	            restrict: 'EA',
 	            template: template
 	        };
@@ -37497,7 +37666,7 @@
 	var jade_mixins = {};
 	var jade_interp;
 
-	buf.push("<div class=\"persona\">Miguel</div>");;return buf.join("");
+	buf.push("<div>Home</div>");;return buf.join("");
 	}
 
 /***/ },
@@ -37510,7 +37679,7 @@
 	var content = __webpack_require__(45);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(21)(content, {});
+	var update = __webpack_require__(28)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -37530,84 +37699,12 @@
 /* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(20)();
+	exports = module.exports = __webpack_require__(27)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".persona {\n  color: #008000;\n}\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	// Imports
-	    var template = __webpack_require__(47);
-	    var style = __webpack_require__(48);
-	// Exports
-	    function directive() {
-	        return {
-	            controller: 'personaLuis as component',
-	            restrict: 'EA',
-	            template: template
-	        };
-	    }
-	    module.exports = directive;
-
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var jade = __webpack_require__(9);
-
-	module.exports = function template(locals) {
-	var buf = [];
-	var jade_mixins = {};
-	var jade_interp;
-
-	buf.push("<div class=\"persona\">Luis</div>");;return buf.join("");
-	}
-
-/***/ },
-/* 48 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(49);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(21)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl", function() {
-				var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/stylus-loader/index.js!./style.styl");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 49 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(20)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".persona {\n  color: #008000;\n}\n", ""]);
+	exports.push([module.id, ".home {\n  color: #cd853f;\n}\n", ""]);
 
 	// exports
 

@@ -7,5 +7,4 @@ module.exports = function (network) {
 
 	// Log app status
 		console.log('App is ready!');
-
 }

@@ -1,5 +1,6 @@
-function personaMiguelController() {
-  console.log("Miguel");
+function personaMiguelController($scope, Page) {
+    Page.setTitle('Miguel');
+    console.log("Miguel");
 }
 
 module.exports = personaMiguelController;
