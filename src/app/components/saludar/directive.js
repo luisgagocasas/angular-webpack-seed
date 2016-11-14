@@ -1,7 +1,7 @@
 "use strict";
 // Imports
-    var template = require('./template.html');
-    var style = require('./style.css');
+    var template = require('./template.jade');
+    var style = require('./style.styl');
 // Exports
     function directive() {
         return {

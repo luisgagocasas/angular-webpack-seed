@@ -2,7 +2,7 @@
 	//Controllers
 	var saludarController = require('./saludar/controller.js');
 	//Directives
-	var saludarDirective = require('./saludar/index.js');
+	var saludarDirective = require('./saludar/directive.js');
 
 // Setup
 	module.exports = function (app) {
